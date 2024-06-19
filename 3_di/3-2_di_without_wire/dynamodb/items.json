@@ -1,0 +1,44 @@
+{
+    "user": [
+        {
+            "PutRequest": {
+                "Item": {
+                    "uid": { "S":"101" },
+                    "name": { "S":"alice" }
+                }
+             }
+        },
+        {
+            "PutRequest": {
+                "Item": {
+                    "uid": { "S":"102" },
+                    "name": { "S":"bob" }
+                }
+             }
+        },
+        {
+            "PutRequest": {
+                "Item": {
+                    "uid": { "S":"103" },
+                    "name": { "S":"carol" }
+                }
+             }
+        },
+        {
+            "PutRequest": {
+                "Item": {
+                    "uid": { "S":"104" },
+                    "name": { "S":"dave" }
+                }
+             }
+        },
+        {
+            "PutRequest": {
+                "Item": {
+                    "uid": { "S":"105" },
+                    "name": { "S":"eve" }
+                }
+             }
+        }
+    ]
+}
