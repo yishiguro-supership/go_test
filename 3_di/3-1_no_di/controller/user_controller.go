@@ -55,6 +55,19 @@ func (uc *UserController) RegisterUser(c *gin.Context) {
     uu := *(*uc).Uu // NG：UserControllerがUuを持っていることを知っている前提になっている
     ur := *uu.Ur // NG：UserUsecaseがUrを持っていることを知っている前提になっている
     db := ur.Db // NG：UserRepositoryがDbを持っていることを知っている前提になっている
+    getInput := &dynamodb.GetItemInput{
+        Key: map[string]*dynamodb.AttributeValue{
+            "uid": {
+                S: aws.String(user.Uid),
+            },
+        },
+        TableName: aws.String("user"),
+    }
+    getResult, _ := db.GetItem(getInput)
+    if getResult.Item != nil {
+        c.JSON(http.StatusBadRequest, gin.H{"message": "uid already in use"})
+        return
+    }
     input := &dynamodb.PutItemInput{
         Item: map[string]*dynamodb.AttributeValue{
             "uid": {

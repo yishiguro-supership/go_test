@@ -10,6 +10,7 @@ import (
 
 type UserRepository interface {
     GetUser(user *model.User, uid string)
+    UserExists(uid string) bool
     SetUser(user *model.User)
 }
 
@@ -37,6 +38,21 @@ func (ur *userRepository) GetUser(user *model.User, uid string) {
         user.Uid = *result.Item["uid"].S
         user.Name = *result.Item["name"].S
     }
+}
+
+func (ur *userRepository) UserExists(uid string) bool {
+    db := ur.db
+    input := &dynamodb.GetItemInput{
+        Key: map[string]*dynamodb.AttributeValue{
+            "uid": {
+                S: aws.String(uid),
+            },
+        },
+        TableName: aws.String("user"),
+    }
+    result, _ := db.GetItem(input)
+
+    return result.Item != nil
 }
 
 func (ur *userRepository) SetUser(user *model.User) {

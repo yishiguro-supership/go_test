@@ -41,7 +41,9 @@ func (uc *userController) RegisterUser(c *gin.Context) {
     user := model.NewUser()
     user.Uid = c.Query("uid")
     user.Name = c.Query("name")
-    uc.uu.RegisterUser(user)
-
+    if err := uc.uu.RegisterUser(user); err != nil {
+        c.JSON(http.StatusBadRequest, gin.H{"message": err.Error()})
+        return
+    }
     c.JSON(http.StatusOK, gin.H{"message": "done"})
 }
