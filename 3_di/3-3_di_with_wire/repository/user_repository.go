@@ -10,6 +10,7 @@ import (
 
 type UserRepository interface {
     GetUser(user *model.User, uid string)
+    SetUser(user *model.User)
 }
 
 type userRepository struct {
@@ -36,4 +37,20 @@ func (ur *userRepository) GetUser(user *model.User, uid string) {
         user.Uid = *result.Item["uid"].S
         user.Name = *result.Item["name"].S
     }
+}
+
+func (ur *userRepository) SetUser(user *model.User) {
+    db := ur.db
+    input := &dynamodb.PutItemInput{
+        Item: map[string]*dynamodb.AttributeValue{
+            "uid": {
+                S: aws.String(user.Uid),
+            },
+            "name": {
+                S: aws.String(user.Name),
+            },
+        },
+        TableName: aws.String("user"),
+    }
+    db.PutItem(input)
 }

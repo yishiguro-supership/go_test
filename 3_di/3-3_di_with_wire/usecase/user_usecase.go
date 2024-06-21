@@ -9,6 +9,7 @@ import (
 
 type UserUsecase interface {
     GetUser(user *model.User, uid string)
+    RegisterUser(user *model.User)
 }
 
 type userUsecase struct {
@@ -21,4 +22,8 @@ func NewUserUsecase(ur repository.UserRepository) UserUsecase {
 
 func (uu *userUsecase) GetUser(user *model.User, uid string) {
     uu.ur.GetUser(user, uid)
+}
+
+func (uu *userUsecase) RegisterUser(user *model.User) {
+    uu.ur.SetUser(user)
 }

@@ -11,6 +11,7 @@ import (
 
 type UserController interface {
     ShowUserInfo(c *gin.Context)
+    RegisterUser(c *gin.Context)
 }
 
 type userController struct {
@@ -34,4 +35,13 @@ func (uc *userController) ShowUserInfo(c *gin.Context) {
     } else {
         c.JSON(http.StatusOK, gin.H{})
     }
+}
+
+func (uc *userController) RegisterUser(c *gin.Context) {
+    user := model.NewUser()
+    user.Uid = c.Query("uid")
+    user.Name = c.Query("name")
+    uc.uu.RegisterUser(user)
+
+    c.JSON(http.StatusOK, gin.H{"message": "done"})
 }

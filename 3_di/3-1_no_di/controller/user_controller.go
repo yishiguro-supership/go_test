@@ -47,3 +47,25 @@ func (uc *UserController) ShowUserInfo(c *gin.Context) {
         c.JSON(http.StatusOK, gin.H{})
     }
 }
+
+func (uc *UserController) RegisterUser(c *gin.Context) {
+    user := model.NewUser()
+    user.Uid = c.Query("uid")
+    user.Name = c.Query("name")
+    uu := *(*uc).Uu // NG：UserControllerがUuを持っていることを知っている前提になっている
+    ur := *uu.Ur // NG：UserUsecaseがUrを持っていることを知っている前提になっている
+    db := ur.Db // NG：UserRepositoryがDbを持っていることを知っている前提になっている
+    input := &dynamodb.PutItemInput{
+        Item: map[string]*dynamodb.AttributeValue{
+            "uid": {
+                S: aws.String(user.Uid),
+            },
+            "name": {
+                S: aws.String(user.Name),
+            },
+        },
+        TableName: aws.String("user"),
+    }
+    db.PutItem(input)
+    c.JSON(http.StatusOK, gin.H{"message": "done"})
+}

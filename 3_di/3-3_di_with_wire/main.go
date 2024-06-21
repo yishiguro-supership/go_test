@@ -16,6 +16,7 @@ func main() {
         c.String(http.StatusOK, "for health-check")
     })
     engine.GET("/user/:uid", func(c *gin.Context) { uc.ShowUserInfo(c) })
+    engine.GET("/register", func(c *gin.Context) { uc.RegisterUser(c) })
 
     engine.Run(":3000")
 }
