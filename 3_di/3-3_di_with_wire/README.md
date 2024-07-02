@@ -6,6 +6,26 @@
 - webアプリをrunする前に立ち上げておく必要がある
 - dockerが入っている前提
 
+## wireのインストール
+- make wireを実施するためにwireコマンドを使えるようにする
+  - 書き込み先の.zshrcはお使いのシェルに合わせて適宜修正
+```
+go install github.com/google/wire/cmd/wire@latest
+
+echo 'export GOPATH=$(go env GOPATH)' >>~/.zshrc
+echo 'export PATH=$PATH:$GOPATH/bin' >>~/.zshrc
+```
+
+## wire_gen.goの出力
+- 依存関係をまとめたファイル(`./injector/wire.go`)を元にwire_gen.goを出力する
+  - 本テストコードではすでに出力済み
+  - 試す場合、一度wire_gen.goを削除してから以下を実行
+```
+wire ./injector/
+# Makefileにコマンドを作ってあるので以下でも可
+make wire
+```
+
 ### dynamodb start
 - DB立ち上げ〜データの挿入
 - 永続化はしていないため、stopするたびリセットされる

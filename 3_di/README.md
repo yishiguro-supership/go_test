@@ -5,6 +5,7 @@
   - 3-1_no_di：DIを行わず、モジュールに依存したコード
   - 3-2_di_without_wire：wireを使わずに自力でDIするコード
   - 3-3_di_with_wire：wireを使ってDIするコード
+- DIを使った場合の書き方やwireを用いた際の書き方を理解することを目的としている
 
 ## Link
 - https://qiita.com/yoshinori_hisakawa/items/a944115eb77ed9247794
